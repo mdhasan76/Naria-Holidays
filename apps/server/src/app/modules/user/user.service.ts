@@ -8,7 +8,6 @@ import {
   IGenericResponse,
 } from "../../../interfaces/sharedInterface";
 import { UserModel } from "./user.model";
-import { updateHelper } from "../../../helpers/updateHelper";
 
 // Create new User
 const createUser = async (data: IUser): Promise<IUser> => {

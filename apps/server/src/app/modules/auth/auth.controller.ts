@@ -43,15 +43,6 @@ const login = catchAsync(async (req, res) => {
   });
 });
 
-const logout = catchAsync(async (req: Request, res: Response) => {
-  await AuthServices.logout(req.user._id, res);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Logged Out successfully",
-  });
-});
-
 const registerUser = catchAsync(async (req: Request, res: Response) => {
   const result = await AuthServices.registerUser(req.body);
   sendResponse(res, {
@@ -105,17 +96,6 @@ const forgetPassword = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
-
-const verifyOTP = catchAsync(async (req: Request, res: Response) => {
-  const result = await AuthServices.verifyOTP(req.body);
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    message: "OTP verified successfully!",
-    data: result,
-  });
-});
-
 const resetPasswordViaResetPasswordToken = catchAsync(
   async (req: Request, res: Response) => {
     const resetPasswordToken = req.body.token;
@@ -132,44 +112,10 @@ const resetPasswordViaResetPasswordToken = catchAsync(
   }
 );
 
-const requestEmailChange = catchAsync(async (req: Request, res: Response) => {
-  const result = await AuthServices.requestEmailChange(req.user._id, req.body);
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    message: "OTP sended successfully on new Email!",
-    data: result,
-  });
-});
-
-const changeEmail = catchAsync(async (req: Request, res: Response) => {
-  const result = await AuthServices.changeEmail(req.user._id, req.body);
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    message: "Email changed successfully!",
-    data: result,
-  });
-});
-
-const changePassword = catchAsync(async (req: Request, res: Response) => {
-  const result = await AuthServices.changePassword(req.user._id, req.body);
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    message: "Password changed successfully!",
-    data: result,
-  });
-});
 export const AuthController = {
   login,
-  logout,
   registerUser,
   refreshToken,
   forgetPassword,
   resetPasswordViaResetPasswordToken,
-  verifyOTP,
-  requestEmailChange,
-  changeEmail,
-  changePassword,
 };

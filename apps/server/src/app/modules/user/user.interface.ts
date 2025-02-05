@@ -1,10 +1,4 @@
 import { Model, Types } from "mongoose";
-import {
-  OTPSenderType,
-  PasswordResetChannelType,
-  RoleName,
-  UserName,
-} from "../../../shared/interface";
 
 export enum UserStatus {
   ACTIVE = "active",

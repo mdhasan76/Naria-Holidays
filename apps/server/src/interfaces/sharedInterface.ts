@@ -34,7 +34,6 @@ export interface IGenericResponse<T> {
 }
 
 export interface IDocumentBase extends Document {
-  businessId: Types.ObjectId;
   createdBy: {
     name: string;
     id: Types.ObjectId | string;

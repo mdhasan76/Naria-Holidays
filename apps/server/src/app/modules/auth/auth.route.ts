@@ -3,56 +3,35 @@ import { AuthValidations } from "./auth.validation";
 import { AuthController } from "./auth.controller";
 import validateRequest from "../../../middlewares/validateRequest";
 import auth from "../../../middlewares/auth";
+import { UserController } from "../user/user.controller";
 
 const router = express.Router();
-router.post(
-  "/login",
-  validateRequest(AuthValidations.loginZodSchema),
-  AuthController.login
-);
 
 router.post(
   "/register",
   validateRequest(AuthValidations.RegisterValidations),
   AuthController.registerUser
 );
+router.post(
+  "/login",
+  validateRequest(AuthValidations.loginZodSchema),
+  AuthController.login
+);
+router.get("/profile", auth(), UserController.getUserById);
+router.put("/profile", auth(), UserController.updateUser);
 
-router.post("/logout", auth(), AuthController.logout);
+// it will send reset link via email
 router.post(
   "/forgot-password",
   validateRequest(AuthValidations.forgetPasswordZodSchema),
   AuthController.forgetPassword
 );
+
 router.post(
   "/reset-password",
   validateRequest(AuthValidations.resetPasswordZodSchema),
   AuthController.resetPasswordViaResetPasswordToken
 );
-router.post(
-  "/verify-otp",
-  validateRequest(AuthValidations.verifyOTPZodSchema),
-  AuthController.verifyOTP
-);
+
 router.get("/refresh-token", AuthController.refreshToken);
-router.post(
-  "/request-change-email/:userId",
-  auth(),
-  // CheckIfSelf,
-  validateRequest(AuthValidations.requestEmailChangeZodSchema),
-  AuthController.requestEmailChange
-);
-router.patch(
-  "/change-email/:userId",
-  auth(),
-  // CheckIfSelf,
-  validateRequest(AuthValidations.changeEmailZodSchema),
-  AuthController.changeEmail
-);
-router.patch(
-  "/change-password/:userId",
-  auth(),
-  // CheckIfSelf,
-  validateRequest(AuthValidations.passwordChangeWithOldPassword),
-  AuthController.changePassword
-);
 export const AuthRoute = router;
