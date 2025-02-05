@@ -37,7 +37,7 @@ declare module "express" {
  * @param {...Role[]} requiredRoles - The roles required to access the route.
  * @returns {Function} Middleware function to handle authentication and role-based access control.
  */
-const auth = (...requiredRoles: RoleName[]) =>
+const auth = () =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     // Extract authorization token from the request headers
     const token: Secret | undefined = req.headers.authorization?.split(" ")[1];
@@ -66,14 +66,6 @@ const auth = (...requiredRoles: RoleName[]) =>
     // If the user is not verified, throw an unauthorized error
     if (!verifiedUser) {
       throw new ApiError(httpStatus.UNAUTHORIZED, "Unauthorized: Invalid User");
-    }
-
-    // Check if the user's role is among the required roles
-    if (requiredRoles.length && !requiredRoles.includes(verifiedUser.role)) {
-      throw new ApiError(
-        httpStatus.FORBIDDEN,
-        "Forbidden. Your role is not permitted to access this API."
-      );
     }
 
     // Attach user and businessId to the request object
