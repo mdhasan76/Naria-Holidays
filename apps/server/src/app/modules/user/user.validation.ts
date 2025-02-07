@@ -1,11 +1,10 @@
 import { z } from "zod";
 
-const UserSchema = z.object({
-  name: z.string(),
-  password: z.string(),
-  displayImage: z.string(),
-  phoneNumber: z.string(),
-  email: z.string().email(),
+const updateUserZodSchema = z.object({
+  body: z.object({
+    userName: z.string().optional(),
+    displayImage: z.string().optional(),
+  }),
 });
 
-export default UserSchema;
+export const UserValidation = { updateUserZodSchema };

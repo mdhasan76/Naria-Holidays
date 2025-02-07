@@ -11,6 +11,7 @@ import { IUser } from "../user/user.interface";
 import { UserModel } from "../user/user.model";
 import { PasswordResetChannelType } from "../../../shared/interface";
 import { OTPHelper, wrapWithSession } from "../../../helpers/utils.helper";
+import { transporter } from "../../../server.utils/mail";
 
 const registerUser = async (data: Partial<IUser>): Promise<IUser> => {
   // hash password
@@ -31,7 +32,7 @@ const registerUser = async (data: Partial<IUser>): Promise<IUser> => {
 };
 
 const login = async (
-  uid: string,
+  email: string,
   password: string
 ): Promise<{
   _id: string;
@@ -40,16 +41,7 @@ const login = async (
   accessToken: string;
   refreshToken: string;
 }> => {
-  const user = await UserModel.findOne({
-    $or: [
-      { email: uid, isDeleted: false },
-      { phoneNumber: uid, isDeleted: false },
-    ],
-  })
-    .select(
-      "password _id name email attemptWrongPassword blockingInfo phoneNumber displayImage isVerified"
-    )
-    .exec();
+  const user = await UserModel.findOne({ email: email });
 
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, "User not found");
@@ -110,7 +102,6 @@ const refreshToken = async (
   if (verifiedToken?._id) {
     const doesUserExist = await UserModel.findOne({
       _id: verifiedToken?._id,
-      isDeleted: false,
     });
     if (!doesUserExist) {
       throw new ApiError(httpStatus.NOT_FOUND, "User does not exist");
@@ -154,27 +145,19 @@ const forgetPassword = async (
 ): Promise<{ requestId: string }> => {
   return wrapWithSession(async (session) => {
     const user = await UserModel.findOne({
-      $or: [
-        { email: data?.uid, isDeleted: false },
-        { mobile: data?.uid, isDeleted: false },
-      ],
-    })
-      .select("+lastOtpRequest")
-      .session(session);
+      email: data?.uid,
+    }).session(session);
 
     if (!user) {
       throw new ApiError(httpStatus.NOT_FOUND, "User does not exist!");
     }
 
-    if (data.channelType === PasswordResetChannelType.EMAIL && !user.email) {
-      throw new ApiError(
-        httpStatus.BAD_REQUEST,
-        "Email address is required for email password reset, but it is missing for this user."
-      );
-    }
-
     // Generate OTP and create OTP document in db
-    const otpData = await OTPHelper(user._id as any, data.channelType);
+    const otpData = await OTPHelper(
+      user._id as any,
+      PasswordResetChannelType.EMAIL,
+      { link: `https://github.com/mdhasan76` }
+    );
     const [saveOtp] = await OTPModel.create([otpData.payload], { session });
 
     if (!saveOtp) {
@@ -184,25 +167,15 @@ const forgetPassword = async (
       );
     }
 
-    if (data?.channelType === PasswordResetChannelType.EMAIL) {
-      const variables = {
-        name: user?.userName,
-        otp: otpData.otp,
-      };
-
-      // const emailContent = Notification.generateEmailFromTemplate(
-      //   loginOTPEmailTemplate,
-      //   variables
-      // );
-
-      //   Notification.sendSMTPMail(
-      //     "Shukran E Commerce<system@kernelkey.com>",
-      //     user?.email,
-      //     "Password Reset OTP",
-      //     emailContent
-      //   );
-    }
-
+    // send mail with defined transport object
+    const info = await transporter.sendMail({
+      from: '"Hello from Naira Holidays 👻" <mdhasan8064@gmail.com>', // sender address
+      to: "mdhasanmiah8064@gmail.com", // list of receivers
+      subject: "Hello ✔", // Subject line
+      text: "Hello world?", // plain text body
+      html: "<b>For reset your password <a href='https://github.com/mdhasan76' target='_blank' rel='noopener noreferrer'}>click here</a></b>", // html body
+    });
+    console.log(info, "this is email info response");
     await session.commitTransaction();
     return { requestId: saveOtp?._id.toString() };
   });

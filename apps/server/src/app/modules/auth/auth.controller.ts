@@ -7,7 +7,7 @@ import { config } from "../../../config";
 import { JwtHelper } from "../../../helpers/jwtHelpers";
 
 const login = catchAsync(async (req, res) => {
-  const result = await AuthServices.login(req.body.uid, req.body.password);
+  const result = await AuthServices.login(req.body.email, req.body.password);
   const { accessToken, refreshToken, ...rest } = result;
   if (refreshToken) {
     const cookieOptions: CookieOptions = {

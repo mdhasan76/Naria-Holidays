@@ -4,6 +4,7 @@ import { AuthController } from "./auth.controller";
 import validateRequest from "../../../middlewares/validateRequest";
 import auth from "../../../middlewares/auth";
 import { UserController } from "../user/user.controller";
+import { UserValidation } from "../user/user.validation";
 
 const router = express.Router();
 
@@ -18,7 +19,12 @@ router.post(
   AuthController.login
 );
 router.get("/profile", auth(), UserController.getUserById);
-router.put("/profile", auth(), UserController.updateUser);
+router.put(
+  "/profile",
+  validateRequest(UserValidation.updateUserZodSchema),
+  auth(),
+  UserController.updateUser
+);
 
 // it will send reset link via email
 router.post(

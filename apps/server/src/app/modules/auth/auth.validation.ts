@@ -51,7 +51,7 @@ const refreshTokenZodSchema = z.object({
 const forgetPasswordZodSchema = z.object({
   body: z.object({
     uid: z.string(),
-    channelType: z.enum(["sms", "email"]),
+    channelType: z.enum(["sms", "email"]).default("email"),
   }),
 });
 

@@ -20,14 +20,14 @@ const updateUser = async (
   id: string,
   payload: Partial<IUser>
 ): Promise<IUser | null> => {
-  const { displayImage } = payload;
-  const updatePayload: any = {};
-  if (displayImage) {
-    updatePayload.displayImage = displayImage;
-  }
-  const result = await UserModel.findOneAndUpdate({ _id: id }, updatePayload, {
+  console.log(id, payload, "thi sis heelo");
+  const { email, password, ...rest } = payload;
+  const result = await UserModel.findOneAndUpdate({ _id: id }, rest, {
     new: true,
   });
+  if (!result) {
+    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+  }
   return result;
 };
 
