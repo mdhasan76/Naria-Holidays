@@ -1,3 +1,6 @@
+"use client";
+import Link from "next/link";
+
 function page() {
   return (
     <form className="max-w-sm mx-auto">
@@ -36,7 +39,17 @@ function page() {
       >
         Login
       </button>
+      <p className="mt-4 text-sm font-medium text-gray-900 dark:text-white">
+        Don't have an account?{" "}
+        <Link
+          href="/register"
+          className="text-blue-700 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-400"
+        >
+          Create an account from here
+        </Link>
+      </p>
     </form>
   );
 }
+
 export default page;
