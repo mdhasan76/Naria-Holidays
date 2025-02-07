@@ -3,6 +3,7 @@
 const flowbite = require("flowbite-react/tailwind");
 import type { Config } from "tailwindcss";
 
+
 const config: Pick<Config, "content" | "plugins"> = {
   content: ["./app/**/*.tsx", flowbite.content()],
 
@@ -10,6 +11,7 @@ const config: Pick<Config, "content" | "plugins"> = {
     // ...
     flowbite.plugin(),
   ],
+
 };
 
 export default config;
