@@ -155,9 +155,15 @@ const forgetPassword = async (
     // Generate OTP and create OTP document in db
     const otpData = await OTPHelper(
       user._id as any,
-      PasswordResetChannelType.EMAIL,
-      { link: `https://github.com/mdhasan76` }
+      PasswordResetChannelType.EMAIL
     );
+
+    const generatePasswordResetLink = await JwtHelper.createToken(
+      { userId: otpData.payload.userId, otp: otpData.otp },
+      config.jwt.secret as Secret,
+      config.jwt.expires_in as string
+    );
+    otpData.payload.update = generatePasswordResetLink;
     const [saveOtp] = await OTPModel.create([otpData.payload], { session });
 
     if (!saveOtp) {
