@@ -1,5 +1,5 @@
 // Import dependencies
-import mongoose, { Schema, Document, model } from "mongoose";
+import { Types } from "mongoose";
 import { IDocumentBase } from "../../../interfaces/sharedInterface";
 
 export enum TaskStatus {
@@ -9,7 +9,8 @@ export enum TaskStatus {
 
 // Define the Task interface
 export interface ITask extends IDocumentBase {
-  userId: mongoose.Types.ObjectId;
+  _id: Types.ObjectId;
+  userId: Types.ObjectId;
   title: string;
   description: string;
   dueDate: Date;

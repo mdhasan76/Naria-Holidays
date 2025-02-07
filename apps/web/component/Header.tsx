@@ -1,7 +1,7 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { Navbar } from "flowbite-react";
 
 export function Header() {
   return (
@@ -11,7 +11,9 @@ export function Header() {
           href="https://flowbite.com/"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
-          <img
+          <Image
+            height={100}
+            width={100}
             src="https://flowbite.com/docs/images/logo.svg"
             className="h-8"
             alt="Flowbite Logo"
@@ -37,9 +39,9 @@ export function Header() {
           >
             <path
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M1 1h15M1 7h15M1 13h15"
             />
           </svg>
@@ -53,6 +55,15 @@ export function Header() {
                 aria-current="page"
               >
                 Home
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/profile"
+                className="block py-2 px-3 bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                aria-current="page"
+              >
+                Profile
               </Link>
             </li>
             <li>
