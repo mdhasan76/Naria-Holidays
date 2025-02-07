@@ -1,18 +1,9 @@
-import { Dropdown } from "flowbite-react";
+
 import React from "react";
 
 const page = () => {
-  return (
-    <div>
-      {" "}
-      <Dropdown label="Dropdown button">
-        <Dropdown.Item>Dashboard</Dropdown.Item>
-        <Dropdown.Item>Settings</Dropdown.Item>
-        <Dropdown.Item>Earnings</Dropdown.Item>
-        <Dropdown.Item>Sign out</Dropdown.Item>
-      </Dropdown>
-    </div>
-  );
+  return <div className="h-96 w-96 bg-red-500">Sign in page</div>;
 };
+//
 
 export default page;
