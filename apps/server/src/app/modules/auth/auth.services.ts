@@ -142,7 +142,7 @@ const refreshToken = async (
 
 const forgetPassword = async (
   data: ForgetPasswordPayload
-): Promise<{ requestId: string }> => {
+): Promise<boolean> => {
   return wrapWithSession(async (session) => {
     const user = await UserModel.findOne({
       email: data?.uid,
@@ -158,12 +158,6 @@ const forgetPassword = async (
       PasswordResetChannelType.EMAIL
     );
 
-    const generatePasswordResetLink = await JwtHelper.createToken(
-      { userId: otpData.payload.userId, otp: otpData.otp },
-      config.jwt.secret as Secret,
-      config.jwt.expires_in as string
-    );
-    otpData.payload.update = generatePasswordResetLink;
     const [saveOtp] = await OTPModel.create([otpData.payload], { session });
 
     if (!saveOtp) {
@@ -172,18 +166,25 @@ const forgetPassword = async (
         "Internal Server error"
       );
     }
-
+    const generatePasswordResetLink = await JwtHelper.createToken(
+      {
+        userId: otpData.payload.userId,
+        requestId: saveOtp._id,
+        otp: otpData.otp,
+      },
+      config.jwt.secret as Secret,
+      config.jwt.expires_in as string
+    );
     // send mail with defined transport object
-    const info = await transporter.sendMail({
+    await transporter.sendMail({
       from: '"Hello from Naira Holidays 👻" <mdhasan8064@gmail.com>', // sender address
       to: "mdhasanmiah8064@gmail.com", // list of receivers
-      subject: "Hello ✔", // Subject line
-      text: "Hello world?", // plain text body
-      html: "<b>For reset your password <a href='https://github.com/mdhasan76' target='_blank' rel='noopener noreferrer'}>click here</a></b>", // html body
+      subject: "Reset password token", // Subject line
+      text: "For reset your password click the url. it will take you reset password page.", // plain text body
+      html: `<b>For reset your password <a href='http://localhost:3000/reset-password/${generatePasswordResetLink}' target='_blank' rel='noopener noreferrer'}>click here</a></b>`, // html body
     });
-    console.log(info, "this is email info response");
     await session.commitTransaction();
-    return { requestId: saveOtp?._id.toString() };
+    return true;
   });
 };
 
@@ -202,7 +203,7 @@ const resetPasswordViaResetPasswordToken = async (
   const doesExistOtp = await OTPModel.findOne({
     _id: token.requestId,
     userId: token.userId,
-    status: false,
+    status: true,
   });
   if (!doesExistOtp) {
     throw new ApiError(httpStatus.NOT_FOUND, "Otp doesn't exist!");
@@ -223,7 +224,6 @@ const resetPasswordViaResetPasswordToken = async (
       doesExistOtp?.userId,
       {
         password: hashedPassword,
-        lastChangedPassword: new Date(),
       },
       { new: true, session }
     );

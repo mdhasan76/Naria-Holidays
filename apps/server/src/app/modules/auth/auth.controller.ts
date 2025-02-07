@@ -92,7 +92,8 @@ const forgetPassword = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: "Forget password checked successfully!",
+    message:
+      "Forget password checked successfully. Check you mail. we sent reset password url via your email!",
     data: result,
   });
 });

@@ -42,13 +42,16 @@ export const userApiSlice = apiSlice.injectEndpoints({
     }),
     forgotPassword: builder.mutation<IGenericResponse<IUser>, { uid: string }>({
       query: (payload) => ({
-        url: `/auth/forget-password`,
+        url: `/auth/forgot-password`,
         method: "POST",
         body: payload,
       }),
       invalidatesTags: ["users"],
     }),
-    resetPassword: builder.mutation<IGenericResponse<IUser>, { uid: string }>({
+    resetPassword: builder.mutation<
+      IGenericResponse<IUser>,
+      { newPassword: string; token: string }
+    >({
       query: (payload) => ({
         url: `/auth/reset-password`,
         method: "POST",

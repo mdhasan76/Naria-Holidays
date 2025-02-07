@@ -184,6 +184,9 @@ importers:
       flowbite-react:
         specifier: ^0.10.2
         version: 0.10.2(react-dom@19.0.0)(react@19.0.0)(tailwindcss@3.4.17)
+      lucide-react:
+        specifier: ^0.475.0
+        version: 0.475.0(react@19.0.0)
       mongoose:
         specifier: ^8.5.1
         version: 8.9.7
@@ -196,6 +199,9 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.0.0(react@19.0.0)
+      react-hook-form:
+        specifier: ^7.54.2
+        version: 7.54.2(react@19.0.0)
       react-hot-toast:
         specifier: ^2.5.1
         version: 2.5.1(react-dom@19.0.0)(react@19.0.0)
@@ -4179,6 +4185,14 @@ packages:
   /lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
 
+  /lucide-react@0.475.0(react@19.0.0):
+    resolution: {integrity: sha512-NJzvVu1HwFVeZ+Gwq2q00KygM1aBhy/ZrhY9FsAgJtpB+E4R7uxRk9M2iKvHa6/vNxZydIB59htha4c2vvwvVg==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    dependencies:
+      react: 19.0.0
+    dev: false
+
   /make-dir@3.1.0:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
     engines: {node: '>=8'}
@@ -4986,6 +5000,15 @@ packages:
     dependencies:
       react: 19.0.0
       scheduler: 0.25.0
+    dev: false
+
+  /react-hook-form@7.54.2(react@19.0.0):
+    resolution: {integrity: sha512-eHpAUgUjWbZocoQYUHposymRb4ZP6d0uwUnooL2uOybA9/3tPUvoAKqEWK1WaSiTxxOfTpffNZP7QwlnM3/gEg==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18 || ^19
+    dependencies:
+      react: 19.0.0
     dev: false
 
   /react-hot-toast@2.5.1(react-dom@19.0.0)(react@19.0.0):
