@@ -8,17 +8,17 @@ import Providers from "./StoreProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Naria Holidays Task Manager",
-  description: "Create by Md Hasan",
+  title: "Naria Holidays - Task Management",
+  description:
+    "Streamline your holiday planning with our intuitive task management system.",
 };
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="light">
       <body className={inter.className}>
         <section className="max-w-max-w-8xl mx-auto">
           <Providers>

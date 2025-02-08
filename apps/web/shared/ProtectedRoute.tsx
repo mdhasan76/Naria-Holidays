@@ -10,30 +10,31 @@ import {
 } from "../redux/feature/authSlice";
 import { useLazyGetRefreshTokenQuery } from "../redux/apiSlice/authApiSlice";
 
-const ProtectedRoute = ({ children }: { children: React.ReactNode }): any => {
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const userState = useSelector(selectCurrentUserState);
   const dispatch = useDispatch();
   const [getRefreshToken, { isLoading, isError }] =
     useLazyGetRefreshTokenQuery();
   const router = useRouter();
+
   useEffect(() => {
-    if (!isLoading && !userState?.user?._id && !isError) {
+    if (!userState?.user?._id && !isError) {
       getRefreshToken("").then((res: any) => {
         if (res?.data?.statusCode === 200) {
           dispatch(setUser(res?.data?.data?.user));
           dispatch(setCredentials(res?.data?.data));
+        } else {
+          router.push("/signin");
         }
       });
     }
-  }, [userState]);
+  }, [userState, isError, getRefreshToken, dispatch, router]);
 
   if (isLoading) {
-    <div>Loading...</div>;
+    return <div>Loading...</div>;
   }
-  if (!userState?.user?._id) {
-    return router.push("/signin");
-  }
-  return <React.Fragment>{children}</React.Fragment>;
+
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;
