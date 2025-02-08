@@ -20,8 +20,7 @@ const updateUser = async (
   id: string,
   payload: Partial<IUser>
 ): Promise<IUser | null> => {
-  console.log(id, payload, "thi sis heelo");
-  const { email, password, ...rest } = payload;
+  const { password, ...rest } = payload;
   const result = await UserModel.findOneAndUpdate({ _id: id }, rest, {
     new: true,
   });

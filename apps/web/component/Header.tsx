@@ -28,16 +28,19 @@ export function Header() {
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 sticky top-0 left-0 z-10">
       <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
-        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <a
+          href="https://mdhasan-portfolio.netlify.app/"
+          className="flex items-center space-x-3 rtl:space-x-reverse"
+        >
           <Image
             height={100}
             width={100}
-            src="https://flowbite.com/docs/images/logo.svg"
+            src={"/logo.png"}
             className="h-8 w-8"
             alt="Logo"
           />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            Flowbite
+            NH Task
           </span>
         </a>
         <div className="flex items-center space-x-8">
@@ -67,20 +70,20 @@ export function Header() {
               </Link>
             </li>
             <li>
-              <Link
-                href="/register"
-                className="py-2 px-3 text-gray-900 hover:bg-gray-100 rounded-sm md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                SignUp
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/signin"
-                className="py-2 px-3 text-gray-900 hover:bg-gray-100 rounded-sm md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                Login
-              </Link>
+              {/* <Link
+                  href="/register"
+                  className="py-2 px-3 text-gray-900 hover:bg-gray-100 rounded-sm md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white"
+                >
+                  SignUp
+                </Link> */}
+              {!userSate?.user?._id && (
+                <Link
+                  href="/signin"
+                  className="py-2 px-3 text-gray-900 hover:bg-gray-100 rounded-sm md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white"
+                >
+                  Login
+                </Link>
+              )}
             </li>
           </ul>
 
@@ -130,14 +133,6 @@ export function Header() {
                         className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                       >
                         Profile
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/settings"
-                        className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Settings
                       </Link>
                     </li>
                     <li>

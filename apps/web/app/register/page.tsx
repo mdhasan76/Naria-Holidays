@@ -6,6 +6,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useRegisterMutation } from "../../redux/apiSlice/authApiSlice";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Page = () => {
   const {
@@ -164,6 +165,15 @@ const Page = () => {
       >
         Register new account
       </button>
+      <p className="mt-4 text-sm font-medium text-gray-900 dark:text-white">
+        Already have an account?{" "}
+        <Link
+          href="/signin"
+          className="text-blue-700 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-400"
+        >
+          login from here
+        </Link>
+      </p>
     </form>
   );
 };
