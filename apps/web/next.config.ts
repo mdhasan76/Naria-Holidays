@@ -21,7 +21,7 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  target: "serverless",
+  reactStrictMode: true,
   experimental: {
     externalDir: true,
   },
