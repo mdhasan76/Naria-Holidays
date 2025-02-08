@@ -112,11 +112,19 @@ const resetPasswordViaResetPasswordToken = catchAsync(
     });
   }
 );
-
+const logout = catchAsync(async (req: Request, res: Response) => {
+  await AuthServices.logout(req.user._id, res);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Logged Out successfully",
+  });
+});
 export const AuthController = {
   login,
   registerUser,
   refreshToken,
   forgetPassword,
   resetPasswordViaResetPasswordToken,
+  logout,
 };

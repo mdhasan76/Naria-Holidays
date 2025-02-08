@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
@@ -10,15 +11,13 @@ import {
 import { useLazyGetRefreshTokenQuery } from "../redux/apiSlice/authApiSlice";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }): any => {
-  const userSate = useSelector(selectCurrentUserState);
+  const userState = useSelector(selectCurrentUserState);
   const dispatch = useDispatch();
   const [getRefreshToken, { isLoading, isError }] =
     useLazyGetRefreshTokenQuery();
-  // console.log(userSate, "this is user");
   const router = useRouter();
-  // const role = "admin";
   useEffect(() => {
-    if (!isLoading && !userSate?.user?._id && !isError) {
+    if (!isLoading && !userState?.user?._id && !isError) {
       getRefreshToken("").then((res: any) => {
         if (res?.data?.statusCode === 200) {
           dispatch(setUser(res?.data?.data?.user));
@@ -26,12 +25,12 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }): any => {
         }
       });
     }
-  }, [userSate]);
+  }, [userState]);
 
   if (isLoading) {
     <div>Loading...</div>;
   }
-  if (!userSate?.user?._id) {
+  if (!userState?.user?._id) {
     return router.push("/signin");
   }
   return <React.Fragment>{children}</React.Fragment>;

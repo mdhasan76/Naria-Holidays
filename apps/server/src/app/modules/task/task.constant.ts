@@ -1,3 +1,3 @@
-export const TaskFilterableField = ["searchTerm"];
+export const TaskFilterableField = ["searchTerm", "userId"];
 
-export const TaskSearchableFields = [];
+export const TaskSearchableFields = ["title"];

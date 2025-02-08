@@ -12,6 +12,7 @@ import { UserModel } from "../user/user.model";
 import { PasswordResetChannelType } from "../../../shared/interface";
 import { OTPHelper, wrapWithSession } from "../../../helpers/utils.helper";
 import { transporter } from "../../../server.utils/mail";
+import { Response } from "express";
 
 const registerUser = async (data: Partial<IUser>): Promise<IUser> => {
   // hash password
@@ -231,21 +232,6 @@ const resetPasswordViaResetPasswordToken = async (
       throw new ApiError(httpStatus.BAD_REQUEST, "Failed to change Password!");
     }
     await OTPModel.findByIdAndDelete(token.otpId, session);
-    // Send email to user
-    // const variables = {
-    //   name: user?.name,
-    // }
-    // const emailContent = Notification.generateEmailFromTemplate(
-    //   changedPasswordInformEmailTemplate,
-    //   variables
-    // )
-
-    // Notification.sendMail(
-    //   'Quest OS<info@mindquest.studio>',
-    //   user?.email,
-    //   'Changed Password successfully',
-    //   emailContent
-    // )
     await session.commitTransaction();
     await session.endSession();
     return "Success";
@@ -255,11 +241,20 @@ const resetPasswordViaResetPasswordToken = async (
     throw new Error(err);
   }
 };
-
+const logout = async (id: string, res: Response): Promise<void> => {
+  const user = await UserModel.findOne({ _id: id }).exec();
+  if (!user) {
+    throw new Error("User not found");
+  }
+  res.clearCookie("refreshToken");
+  res.clearCookie("raw_idToken");
+  res.clearCookie("accessToken");
+};
 export const AuthServices = {
   registerUser,
   login,
   refreshToken,
   forgetPassword,
   resetPasswordViaResetPasswordToken,
+  logout,
 };

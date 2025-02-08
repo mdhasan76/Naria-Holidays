@@ -11,6 +11,10 @@ export const taskApiSlice = apiSlice.injectEndpoints({
       query: ({ taskId }) => `/tasks/${taskId}`,
       providesTags: ["tasks"],
     }),
+    getTaskStates: builder.query<IGenericResponse<any>, null>({
+      query: () => `/tasks/states`,
+      providesTags: ["tasks"],
+    }),
     createTask: builder.mutation<IGenericResponse<ITask>, any>({
       query: (payload) => ({
         url: `/tasks`,
@@ -25,7 +29,7 @@ export const taskApiSlice = apiSlice.injectEndpoints({
     >({
       query: (payload) => ({
         url: `/tasks/${payload.taskId}`,
-        method: "PATCH",
+        method: "PUT",
         body: payload,
       }),
       invalidatesTags: ["tasks"],
@@ -51,4 +55,6 @@ export const {
   useGetTaskByIdQuery,
   useLazyGetTaskByIdQuery,
   useUpdateTaskMutation,
+  useGetTaskStatesQuery,
+  useLazyGetTaskStatesQuery,
 } = taskApiSlice;

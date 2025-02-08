@@ -39,5 +39,6 @@ router.post(
   AuthController.resetPasswordViaResetPasswordToken
 );
 
+router.post("/logout", auth(), AuthController.logout);
 router.get("/refresh-token", AuthController.refreshToken);
 export const AuthRoute = router;

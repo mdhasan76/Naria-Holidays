@@ -8,6 +8,7 @@ const route = express.Router();
 route.use(auth());
 route
   .get("/", TaskController.getTasks)
+  .get("/states", TaskController.getTaskStates)
   .get("/:id", TaskController.getTaskById)
   .post(
     "/",

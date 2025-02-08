@@ -11,11 +11,12 @@ import { PaginationOptions } from "../../../interfaces/sharedInterface";
 // create Task
 const createTask = catchAsync(async (req: Request, res: Response) => {
   const data = req.body;
+  data.userId = req.user._id;
   const result = await TaskService.createTask(data);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Create task successfully",
+    message: "Created task successfully",
     data: result,
   });
 });
@@ -50,6 +51,7 @@ const getTasks = catchAsync(async (req: Request, res: Response) => {
   const paginationOption = pick(req.query, PaginationOptions);
 
   const filters = pick(req.query, TaskFilterableField);
+  filters["userId"] = req.user._id;
   const result = await TaskService.getTasks(filters, paginationOption);
   sendResponse<ITask[]>(res, {
     statusCode: httpStatus.OK,
@@ -72,10 +74,22 @@ const getTaskById = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// get Task by id
+const getTaskStates = catchAsync(async (req: Request, res: Response) => {
+  const result = await TaskService.getTaskStates(req.user._id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Get Task States Successfully",
+    data: result,
+  });
+});
+
 export const TaskController = {
   getTasks,
   getTaskById,
   createTask,
   updateTask,
   deleteTask,
+  getTaskStates,
 };

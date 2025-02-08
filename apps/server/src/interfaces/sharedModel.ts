@@ -2,10 +2,6 @@ import { Schema } from "mongoose";
 
 // Define the schema for IDocumentBase
 export const documentBaseSchema = new Schema({
-  businessId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-  },
   createdBy: {
     name: {
       type: String,
@@ -17,20 +13,21 @@ export const documentBaseSchema = new Schema({
     },
   },
   updatedBy: {
-    name: {
-      type: String,
-      required: true,
+    type: {
+      name: {
+        type: String,
+        required: true,
+      },
+      id: {
+        type: Schema.Types.ObjectId,
+        required: true,
+      },
+      note: String, // Optional field
     },
-    id: {
-      type: Schema.Types.ObjectId,
-      required: true,
-    },
-    note: String, // Optional field
+    required: false,
   },
   isDeleted: {
     type: Boolean,
-    required: true,
+    default: false,
   },
-  updatedAt: Date, // Optional field
-  createdAt: Date, // Optional field
 });

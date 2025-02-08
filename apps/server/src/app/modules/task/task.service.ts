@@ -1,6 +1,6 @@
 import httpStatus from "http-status";
 import { TaskSearchableFields } from "./task.constant";
-import { ITask, ITaskFilters } from "./task.interface";
+import { ITask, ITaskFilters, TaskStatus } from "./task.interface";
 import ApiError from "../../../errors/ApiError";
 import { searchHelper } from "../../../helpers/searchHelper";
 import {
@@ -8,9 +8,13 @@ import {
   IGenericResponse,
 } from "../../../interfaces/sharedInterface";
 import { TaskModel } from "./task.model";
+import { doesUserExist } from "../../../helpers/utils.helper";
+import { Types } from "mongoose";
 
 // Create new Task
 const createTask = async (data: ITask): Promise<ITask> => {
+  const user = await doesUserExist(data.userId as unknown as string);
+  data.createdBy = user.by;
   const task = new TaskModel(data);
   await task.save();
   return task;
@@ -73,10 +77,42 @@ const getTaskById = async (id: string): Promise<ITask | null> => {
   return task;
 };
 
+const getTaskStates = async (
+  userId: string
+): Promise<{ name: string; total: number }[]> => {
+  const result = await TaskModel.aggregate([
+    {
+      $match: {
+        userId: new Types.ObjectId(userId),
+        isDeleted: false,
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        pendingTask: {
+          $sum: { $cond: [{ $eq: ["$status", TaskStatus.PENDING] }, 1, 0] },
+        },
+        completedTask: {
+          $sum: { $cond: [{ $eq: ["$status", TaskStatus.COMPLETED] }, 1, 0] },
+        },
+        total: { $sum: 1 },
+      },
+    },
+  ]);
+
+  return [
+    { name: "Total Task", total: result[0]?.total | 0 },
+    { name: "Pending", total: result[0]?.pendingTask | 0 },
+    { name: "Complete", total: result[0]?.completedTask | 0 },
+  ];
+};
+
 export const TaskService = {
   createTask,
   updateTask,
   deleteTask,
   getTasks,
   getTaskById,
+  getTaskStates,
 };
