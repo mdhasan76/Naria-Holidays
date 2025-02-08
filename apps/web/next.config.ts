@@ -21,6 +21,10 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  target: "serverless",
+  experimental: {
+    externalDir: true,
+  },
 };
 
 export default nextConfig;
