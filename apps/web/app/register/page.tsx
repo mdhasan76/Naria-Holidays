@@ -7,6 +7,7 @@ import { useRegisterMutation } from "../../redux/apiSlice/authApiSlice";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import RequiredStar from "../../shared/RequiredStar";
 
 const Page = () => {
   const {
@@ -43,7 +44,7 @@ const Page = () => {
           htmlFor="userName"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
-          Your Name
+          Your Name <RequiredStar />
         </label>
         <input
           type="text"
@@ -62,7 +63,7 @@ const Page = () => {
           htmlFor="displayImage"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
-          Your Image URL
+          Your Image URL <RequiredStar />
         </label>
         <input
           type="text"
@@ -82,7 +83,7 @@ const Page = () => {
           htmlFor="email"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
-          Your email
+          Your email <RequiredStar />
         </label>
         <input
           type="email"
@@ -101,7 +102,7 @@ const Page = () => {
           htmlFor="password"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
-          Your password
+          Your password <RequiredStar />
         </label>
         <input
           type={showPassword ? "text" : "password"}
@@ -132,7 +133,7 @@ const Page = () => {
           htmlFor="repeat-password"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
-          Confirm password
+          Confirm password <RequiredStar />
         </label>
         <input
           type={showConfirmPassword ? "text" : "password"}

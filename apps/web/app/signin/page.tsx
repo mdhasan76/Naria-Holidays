@@ -13,6 +13,7 @@ import {
 import { setUser } from "../../redux/feature/userSlice";
 import toast from "react-hot-toast";
 import { Eye, EyeClosed } from "lucide-react";
+import RequiredStar from "../../shared/RequiredStar";
 
 function page() {
   const [logIn] = useLogInMutation();
@@ -53,7 +54,7 @@ function page() {
           htmlFor="email"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
-          Your email
+          Your email <RequiredStar />
         </label>
         <input
           type="email"
@@ -69,7 +70,7 @@ function page() {
           htmlFor="password"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
-          Your password
+          Your password <RequiredStar />
         </label>
         <div className="relative">
           <input
