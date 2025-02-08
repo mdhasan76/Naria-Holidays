@@ -10,6 +10,8 @@ import { CreateTaskForm } from "../../../component/CreateTaskForm";
 import { UpdateTaskForm } from "../../../component/UpdateTaskForm";
 import { ITask } from "../../../shared/interface";
 import toast from "react-hot-toast";
+import Link from "next/link";
+import { EyeIcon } from "lucide-react";
 
 const User = () => {
   const [showModal, setShowModal] = useState(false);
@@ -174,22 +176,28 @@ const User = () => {
                   <td className="px-6 py-4">
                     {new Date(task?.createdAt as Date).toLocaleString()}
                   </td>
-                  <td className="px-6 py-4 text-right">
+                  <td className="px-6 py-4 text-right flex items-center gap-x-4 justify-end">
                     <button
                       onClick={() => {
                         setSelectedTask(task);
                         setShowEditModal(true);
                       }}
-                      className="text-blue-600 hover:underline mr-2"
+                      className="text-blue-600 hover:underline"
                     >
                       Edit
                     </button>
                     <button
-                      onClick={() => handleDeleteTask(task._id.toString())}
+                      onClick={() => handleDeleteTask(task?._id.toString())}
                       className="text-red-600 hover:underline "
                     >
                       Delete
                     </button>
+                    <Link
+                      href={`/task/${task._id.toString()}`}
+                      className=" hover:underline "
+                    >
+                      <EyeIcon height={20} width={20} />
+                    </Link>
                   </td>
                 </tr>
               ))}
