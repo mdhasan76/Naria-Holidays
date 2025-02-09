@@ -8,13 +8,13 @@ import { logOut, selectCurrentUserState } from "../redux/feature/authSlice";
 import { User2 } from "lucide-react";
 import { useLogOutMutation } from "../redux/apiSlice/authApiSlice";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 export function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const userSate = useSelector(selectCurrentUserState);
   const dispatch = useDispatch();
-  const router = useRouter();
+  // const router = useRouter();
   const toggleDropdown = () => setDropdownOpen((prev) => !prev);
   const [logOutUser] = useLogOutMutation();
   const handleLogOut = () => {
@@ -22,8 +22,8 @@ export function Header() {
       if (res?.data?.statusCode === 200) {
         toast.success(res?.data?.message);
         dispatch(logOut());
-        router.push("/signin");
-        router.refresh();
+        // router.push("/signin");
+        // router.refresh();
       } else {
         toast.error(res?.error?.data?.message);
       }
