@@ -29,6 +29,7 @@ export function Header() {
       }
     });
   };
+  //
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 sticky top-0 left-0 z-10">
       <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
