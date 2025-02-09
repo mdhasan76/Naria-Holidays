@@ -3,14 +3,13 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { Application, Request, Response } from "express";
 import helmet from "helmet";
-import { config } from "./config";
 
 import httpStatus from "http-status";
 import globalErrorHandler from "./middlewares/globalErrorHandler";
 import routes from "./app/routes";
 
 const corsOptions = {
-  origin: ["http://localhost:3000"],
+  origin: ["http://localhost:3000", "https://naria-holidays.netlify.app/"],
   credentials: true,
 };
 
@@ -20,7 +19,7 @@ const app: Application = express();
 setupMiddleware();
 
 // Routes setup
-app.get("/", welcomeRoute);
+app.get("/", initialRoute);
 app.use("/api/v1", routes);
 
 // Custom Not Found handler
@@ -32,10 +31,8 @@ app.use(globalErrorHandler);
 // Middleware setup function
 function setupMiddleware() {
   const middlewares = [
-    // requestLoggerMiddleware,
     cors(corsOptions),
     cookieParser(),
-    // reteLimiter,
     helmet(),
     express.json(),
     express.urlencoded({ extended: true }),
@@ -48,7 +45,7 @@ function setupMiddleware() {
 }
 
 // Welcome route handler
-function welcomeRoute(req: Request, res: Response) {
+function initialRoute(req: Request, res: Response) {
   res.json({
     statusCode: httpStatus.OK,
     success: true,
@@ -68,6 +65,4 @@ function notFoundHandler(req: Request, res: Response) {
 }
 
 app.set("trust proxy", true);
-// // Global error handler
-// Optimizers.deliveryOptimizer()
 export default app;

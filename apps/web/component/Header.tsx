@@ -39,7 +39,7 @@ export function Header() {
           <Image
             height={100}
             width={100}
-            src={"/logo.png"}
+            src={"https://cdn-icons-png.flaticon.com/512/906/906334.png"}
             className="h-8 w-8 object-cover object-center"
             alt="Logo"
           />
