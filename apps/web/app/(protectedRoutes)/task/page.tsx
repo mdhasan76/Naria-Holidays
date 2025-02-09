@@ -8,22 +8,30 @@ import {
 import PopupModal from "../../../component/PopupModal";
 import { CreateTaskForm } from "../../../component/CreateTaskForm";
 import { UpdateTaskForm } from "../../../component/UpdateTaskForm";
-import { ITask } from "../../../shared/interface";
+import { ITask, TaskStatus } from "../../../shared/interface";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { EyeIcon } from "lucide-react";
+import { Dropdown, Pagination } from "flowbite-react";
 
 const User = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const onPageChange = (page: number) => {
+    setCurrentPage(page);
+  };
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [selectedTask, setSelectedTask] = useState<ITask>();
   const [deleteTask] = useDeleteTaskMutation();
   const [getTasks, { data }] = useLazyGetTasksQuery();
+  console.log(data);
   const tasks = data?.data;
   const { data: TaskStatesD } = useGetTaskStatesQuery(null);
   const taskStatesData = TaskStatesD?.data;
   console.log(taskStatesData, "this is states data");
-
+  console.log(statusFilter, "this is");
   const taskList = [
     { taskName: "Hasan", status: "Active", role: "Admin" },
     { taskName: "Esmail", status: "Inactive", role: "User" },
@@ -55,7 +63,6 @@ const User = () => {
       }
     });
   };
-
   const [searchTerm, setSearchTerm] = useState<string>("");
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -63,10 +70,14 @@ const User = () => {
       if (searchTerm?.length > 0) {
         query = `searchTerm=${searchTerm}`;
       }
+      query = `${query}&page=${currentPage}&limit=5`;
+      if (statusFilter) {
+        query = `${query}&status=${statusFilter}`;
+      }
       getTasks(query && query);
     }, 500);
     return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm, getTasks]);
+  }, [searchTerm, getTasks, currentPage, statusFilter]);
   return (
     <div className="space-y-6">
       {/* Statistics Section */}
@@ -123,12 +134,27 @@ const User = () => {
             </div>
           </form>
         </div>
-        <button
-          onClick={() => setShowModal(true)}
-          className="text-sm font-medium border border-gray-300 rounded-lg px-4 py-2 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
-        >
-          Create Task
-        </button>
+        <div className="flex  items-center gap-x-5">
+          <div>
+            <select
+              onChange={(e: any) => setStatusFilter(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value={TaskStatus.PENDING} className="text-gray-700">
+                Pending
+              </option>
+              <option value={TaskStatus.COMPLETED} className="text-gray-700">
+                Completed
+              </option>
+            </select>
+          </div>
+          <button
+            onClick={() => setShowModal(true)}
+            className="text-sm font-medium border border-gray-300 rounded-lg px-4 py-2 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+          >
+            Create Task
+          </button>
+        </div>
       </div>
 
       {/* Modal for Create User Form */}
@@ -203,6 +229,25 @@ const User = () => {
               ))}
             </tbody>
           </table>
+          <div className="my-5">
+            <div className="flex overflow-x-auto sm:justify-center">
+              {data?.meta?.total && (
+                <Pagination
+                  layout="pagination"
+                  currentPage={currentPage}
+                  totalPages={
+                    Math.ceil(
+                      (data?.meta?.total as any) / (data?.meta?.limit as any)
+                    ) as any | 0
+                  }
+                  onPageChange={onPageChange}
+                  showIcons
+                  accessKey="hello"
+                  about="this is about"
+                />
+              )}
+            </div>
+          </div>
           {taskList.length === 0 && (
             <div className="p-4 text-center text-gray-500">No tasks found</div>
           )}

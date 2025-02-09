@@ -1,58 +1,79 @@
-# Turborepo Tailwind CSS starter
+# Naria Holidays Task Management Site
 
-This Turborepo starter is maintained by the Turborepo core team.
+**GitHub Repository:** [Naria Holidays](https://github.com/mdhasan76/Naria-Holidays)  
+**Live Site:** [https://naria-holidays.netlify.app/](https://naria-holidays.netlify.app/)  
+**Live Server:** [https://naria-server-j1ppm46wl-mdhasan76s-projects.vercel.app/](https://naria-server-j1ppm46wl-mdhasan76s-projects.vercel.app/)
 
-## Using this example
+---
 
-Run the following command:
+## Tech Stack
 
-```sh
-npx create-turbo@latest -e with-tailwind
-```
+**Frontend:** Next.js, Redux, React Hook Form, Tailwind CSS, Flowbite Component Library, Headless UI, TypeScript, React hot toast
+**Backend:** Node.js, Express.js, MongoDB, Mongoose, Nodemon, Zod, Bcrypt, JWT, Winston for Logging  
+**Deployment:** Frontend on Netlify, Backend on Vercel
 
-## What's inside?
+---
 
-This Turborepo includes the following packages/apps:
+## Project Setup
 
-### Apps and Packages
+### Steps to Run the Project Locally:
 
-- `docs`: a [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `web`: another [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `ui`: a stub React component library with [Tailwind CSS](https://tailwindcss.com/) shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/mdhasan76/Naria-Holidays
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd naria-holidays
+   ```
+3. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+4. Start the development server:
+   ```bash
+   pnpm dev
+   ```
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+---
 
-### Building packages/ui
+## Login Credentials
 
-This example is set up to produce compiled styles for `ui` components into the `dist` directory. The component `.tsx` files are consumed by the Next.js apps directly using `transpilePackages` in `next.config.js`. This was chosen for several reasons:
+You can use the following credentials to log in:
 
-- Make sharing one `tailwind.config.js` to apps and packages as easy as possible.
-- Make package compilation simple by only depending on the Next.js Compiler and `tailwindcss`.
-- Ensure Tailwind classes do not overwrite each other. The `ui` package uses a `ui-` prefix for it's classes.
-- Maintain clear package export boundaries.
+- **Email:** `nayeem@gmail.com`
+- **Password:** `hasanBhai22`
 
-Another option is to consume `packages/ui` directly from source without building. If using this option, you will need to update the `tailwind.config.js` in your apps to be aware of your package locations, so it can find all usages of the `tailwindcss` class names for CSS compilation.
+Alternatively, you can register using the registration form.
 
-For example, in [tailwind.config.js](packages/tailwind-config/tailwind.config.js):
+### Checking Emails
 
-```js
-  content: [
-    // app content
-    `src/**/*.{js,ts,jsx,tsx}`,
-    // include packages if not transpiling
-    "../../packages/ui/*.{js,ts,jsx,tsx}",
-  ],
-```
+Emails sent by the application can be viewed on Ethereal Mail.
 
-If you choose this strategy, you can remove the `tailwindcss` and `autoprefixer` dependencies from the `ui` package.
+1. Go to [https://ethereal.email/login](https://ethereal.email/login)
+2. Use the following credentials to log in:
 
-### Utilities
+   - **Email:** `cornell.stracke83@ethereal.email`
+   - **Password:** `m7Ets8UNBdUD9E5CVQ`
 
-This Turborepo has some additional tools already setup for you:
+3. Navigate to the "Messages" menu to see all emails.
 
-- [Tailwind CSS](https://tailwindcss.com/) for styles
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+---
+
+## Authentication Process
+
+User authentication is managed using **JWT tokens** on the backend. The tokens are verified through the `Authorization` header in API requests.
+
+For security, tokens are stored in **HTTP-only cookies**, preventing potential **Cross-Site Scripting (XSS)** attacks. These cookies are not accessible via JavaScript.
+
+The following tokens are used in the authentication process:
+
+- **raw_idToken**: Contains the encrypted user object, secured with JWT.
+- **accessToken**: Used for authentication and validating user sessions.
+- **refreshToken**: Used to refresh the access token when it expires.
+
+Storing tokens in HTTP-only cookies significantly reduces the risk of security vulnerabilities like XSS attacks.
+
+---
+
+## If you have any questions or face any trouble running the project, please let me know.

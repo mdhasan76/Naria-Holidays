@@ -14,7 +14,7 @@ const createTask = catchAsync(async (req: Request, res: Response) => {
   data.userId = req.user._id;
   const result = await TaskService.createTask(data);
   sendResponse(res, {
-    statusCode: httpStatus.OK,
+    statusCode: httpStatus.CREATED,
     success: true,
     message: "Created task successfully",
     data: result,

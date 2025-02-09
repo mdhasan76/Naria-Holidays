@@ -36,7 +36,7 @@ export function Header() {
             height={100}
             width={100}
             src={"/logo.png"}
-            className="h-8 w-8"
+            className="h-8 w-8 object-cover object-center"
             alt="Logo"
           />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
@@ -103,7 +103,7 @@ export function Header() {
                     height={40}
                     width={40}
                     src={userSate?.user?.displayImage}
-                    className="h-10 w-10 rounded-full"
+                    className="h-10 w-10 rounded-full object-cover object-center"
                     alt="User Profile"
                   />
                 ) : (
