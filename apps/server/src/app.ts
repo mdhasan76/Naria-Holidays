@@ -9,7 +9,7 @@ import globalErrorHandler from "./middlewares/globalErrorHandler";
 import routes from "./app/routes";
 
 const corsOptions = {
-  origin: ["http://localhost:3000", "https://naria-holidays.netlify.app/"],
+  origin: ["http://localhost:3000", "https://naria-holidays.netlify.app"],
   credentials: true,
 };
 

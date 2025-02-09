@@ -2,7 +2,7 @@
 
 **GitHub Repository:** [Naria Holidays](https://github.com/mdhasan76/Naria-Holidays)  
 **Live Site:** [https://naria-holidays.netlify.app/](https://naria-holidays.netlify.app/)  
-**Live Server:** [https://naria-server-j1ppm46wl-mdhasan76s-projects.vercel.app/](https://naria-server-j1ppm46wl-mdhasan76s-projects.vercel.app/)
+**Live Server:** [https://naria-server.vercel.app](https://naria-server.vercel.app)
 
 ## to see api documentation [click here](https://github.com/mdhasan76/Naria-Holidays/blob/main/apps/server/readme.MD)
 
