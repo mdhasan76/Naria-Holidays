@@ -1,0 +1,2 @@
+[[plugins]]
+  package = "netlify-plugin-cypress"  # This is the plugin you need to disable

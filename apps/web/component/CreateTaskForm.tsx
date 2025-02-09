@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useCreateTaskMutation } from "../redux/apiSlice/taskApiSlice";
-import { Textarea } from "@headlessui/react";
 
 enum TaskStatus {
   PENDING = "pending",
@@ -35,7 +34,8 @@ export function CreateTaskForm({
 
   const onSubmit = (data: ITask) => {
     createTask(data).then((res: any) => {
-      if (res?.data?.statusCode === 200) {
+      if (res?.data?.statusCode === 201) {
+        console.log(res?.data, "this is");
         toast.success(res?.data?.message);
         if (!stayOnThisPage) {
           setShowModal(false);
