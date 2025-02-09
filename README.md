@@ -20,6 +20,8 @@
 
 ### Steps to Run the Project Locally:
 
+This project uses a Turbo Repo to manage the entire codebase in one repository, making it easy to clone and run without hassle.
+
 1. Clone the repository:
    ```bash
    git clone https://github.com/mdhasan76/Naria-Holidays
